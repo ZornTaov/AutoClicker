@@ -2,6 +2,7 @@ package in.nethical.clikit.services;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.GestureDescription;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Path;
 import android.os.Build;
@@ -25,6 +26,13 @@ public class TapAccessibilityService extends AccessibilityService {
         handler= new Handler(handlerThread.getLooper());
     }
 
+    @Override
+    public boolean stopService(Intent name) {
+        handler.removeCallbacksAndMessages(null);
+        return super.stopService(name);
+    }
+
+    @SuppressLint({"ObsoleteSdkInt", "SupportAnnotationUsage"})
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {

@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -19,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
 
     int clicks = 0;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
         
         setContentView(R.layout.activity_main);
 
@@ -28,13 +27,13 @@ public class MainActivity extends AppCompatActivity {
         Button clicker_button = findViewById(R.id.clicker);
 
         if (!Settings.canDrawOverlays(MainActivity.this)){
-            Toast.makeText(MainActivity.this, "Please Enable Display over other apps", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Please Enable Display over other apps", Toast.LENGTH_LONG).show();
             final Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:"+getPackageName()));
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
         if(!isAccessibilityServiceEnabled(this, TapAccessibilityService.class)){
-            Toast.makeText(MainActivity.this, "please enable accessibility service", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "please enable accessibility service", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

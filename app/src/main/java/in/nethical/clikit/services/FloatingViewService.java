@@ -108,6 +108,26 @@ public class FloatingViewService extends Service {
                 Toast.makeText(FloatingViewService.this, "Please Add a Target First.", Toast.LENGTH_SHORT).show();
             }
         });
+
+        Button stopper = myFloatingView.findViewById(R.id.floating_stop);
+        stopper.setOnClickListener(view -> {
+            if (location!=null&&TargetImage!=null) {
+                Intent service = new Intent(FloatingViewService.this, TapAccessibilityService.class);
+                if (isRunning) {
+                    service.putExtra("action", "stop");
+                    isRunning = false;
+                    run.setText(R.string.string_start);
+                }
+                stopService(service);
+            }
+            if (targetView != null && targetView.getParent() != null) {
+                WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+                try {
+                    wm.removeView(targetView);
+                } catch (Exception ignored) {}
+            }
+            stopService(new Intent(FloatingViewService.this, FloatingViewService.class));
+        });
     }
 
 
